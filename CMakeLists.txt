@@ -1,12 +1,26 @@
-# Minimum version of CMake required to build this project
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.16)
 
-# Name of the project
-project(C-Embedded-System-Simulator VERSION 1.0)
+project(sensor_interrupt_sim CXX)
 
-# Set the C++ standard to C20
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED True)
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# Add the executable target
-add_executable(C-Embedded-System-Simulator src/cpp/main.cpp)
+include_directories(include)
+
+add_library(sensor_lib
+    src/InterruptController.cpp
+    src/SensorDriver.cpp
+    src/SensorSimulator.cpp
+)
+
+add_executable(sensor_sim
+    src/main.cpp
+)
+
+target_link_libraries(sensor_sim sensor_lib)
+
+add_executable(sensor_tests
+    tests/cpp_tests.cpp
+)
+
+target_link_libraries(sensor_tests sensor_lib)
